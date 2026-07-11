@@ -1,12 +1,9 @@
 'use client';
-
 import { useCallback, useMemo, useState } from 'react';
 import Link from 'next/link';
 import CameraCapture from '@/components/CameraCapture';
 import AudioRecorder from '@/components/AudioRecorder';
-
 type Step = 'photo' | 'label' | 'voice' | 'review';
-
 function dataUrlToBlob(dataUrl: string): Blob {
   const [meta, base64] = dataUrl.split(',');
   const mime = meta.match(/:(.*?);/)?.[1] ?? 'image/jpeg';
@@ -15,7 +12,6 @@ function dataUrlToBlob(dataUrl: string): Blob {
   for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
   return new Blob([bytes], { type: mime });
 }
-
 export default function CaptureStudioPage() {
   const [step, setStep] = useState<Step>('photo');
   const [imageDataUrl, setImageDataUrl] = useState<string | null>(null);
@@ -25,9 +21,7 @@ export default function CaptureStudioPage() {
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
-
   const canContinueFromLabel = label.trim().length > 0;
-
   const resetForNextTile = useCallback(() => {
     setStep('photo');
     setImageDataUrl(null);
@@ -37,19 +31,16 @@ export default function CaptureStudioPage() {
     setSubmitError(null);
     setSubmitted(false);
   }, []);
-
   const handleSubmit = useCallback(async () => {
     if (!imageDataUrl || !canContinueFromLabel) return;
     setSubmitting(true);
     setSubmitError(null);
-
     try {
       const formData = new FormData();
       formData.append('image', dataUrlToBlob(imageDataUrl), 'tile.jpg');
       if (audioBlob) formData.append('audio', audioBlob, 'anchor.webm');
       formData.append('label', label.trim());
       formData.append('is_dynamic_slot', String(isDynamicSlot));
-
       const res = await fetch('/api/upload-tile', { method: 'POST', body: formData });
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
@@ -62,9 +53,7 @@ export default function CaptureStudioPage() {
       setSubmitting(false);
     }
   }, [imageDataUrl, audioBlob, label, isDynamicSlot, canContinueFromLabel]);
-
   const stepIndex = useMemo(() => ({ photo: 0, label: 1, voice: 2, review: 3 })[step], [step]);
-
   return (
     <main>
       <header className="mb-6 flex items-center justify-between">
@@ -79,7 +68,6 @@ export default function CaptureStudioPage() {
           Go to Edit Mode
         </Link>
       </header>
-
       <ol className="mb-8 flex gap-2" aria-label="Capture progress">
         {(['photo', 'label', 'voice', 'review'] as Step[]).map((s, i) => (
           <li
@@ -88,7 +76,6 @@ export default function CaptureStudioPage() {
           />
         ))}
       </ol>
-
       {submitted ? (
         <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-6 text-center">
           <p className="font-medium text-emerald-800">Tile saved.</p>
