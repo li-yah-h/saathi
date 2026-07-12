@@ -1,0 +1,8 @@
+import type {Config} from 'tailwindcss'
+const c:Config=
+{
+  content:['./app/**/*.{ts,tsx}','./components/**/*.{ts,tsx}'],
+  theme:{extend:{}},
+  plugins:[]
+}
+export default c
