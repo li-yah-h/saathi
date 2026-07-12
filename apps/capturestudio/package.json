@@ -14,9 +14,9 @@
     "react-dom": "^18.3.1",
     "react-webcam": "^7.2.0",
     "@supabase/supabase-js": "^2.45.4",
-    "@echovoice/shared-types": "*",
-    "@echovoice/supabase-client": "*",
-    "@echovoice/ai-client": "*"
+    "@saathi/stypes": "*",
+    "@saathi/client": "*",
+    "@saathi/ai": "*"
   },
   "devDependencies": {
     "typescript": "^5.5.4",
