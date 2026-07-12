@@ -34,7 +34,7 @@ export default function GridPage() {
           data: { session },
         } = await supabaseBrowser.auth.getSession();
 
-        await fetch('/api/log-event', {
+        await fetch('/api/logevent', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
     source: body.source,
   });
   if (error) {
-    console.error('log-event insert failed:', error.message);
+    console.error('log event insert failed:', error.message);
     return NextResponse.json({ ok: false, error: error.message }, { status: 200 });
   }
   return NextResponse.json({ ok: true });
