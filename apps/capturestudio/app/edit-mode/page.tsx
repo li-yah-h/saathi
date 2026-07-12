@@ -1,14 +1,11 @@
 'use client';
-
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { createBrowserSupabaseClient } from '@echovoice/supabase-client/client';
 import { getHeatmap, setTileLock } from '@/lib/heatmapQuery';
 import type { HeatmapTile } from '@/lib/types';
 import Heatmap from '@/components/Heatmap';
-
 type LoadState = 'loading' | 'ready' | 'error' | 'unauthorized';
-
 export default function EditModePage() {
   const supabase = useMemo(() => createBrowserSupabaseClient(), []);
   const [tiles, setTiles] = useState<HeatmapTile[]>([]);
