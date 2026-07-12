@@ -1,0 +1,17 @@
+{
+  "name":"@saathi/client",
+  "version":"0.1.0",
+  "private":true,
+  "main":"client.ts",
+  "types":"client.ts",
+  "exports":
+  {
+    "./client":"./client.ts",
+    "./server":"./server.ts"
+  },
+  "dependencies":
+  {
+    "@supabase/supabase-js":"^2.45.4",
+    "@supabase/ssr":"^0.5.1"
+  }
+}
