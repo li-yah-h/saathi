@@ -82,17 +82,12 @@ create policy "tiles_delete_admin_only"
   on public.tiles for delete
   to authenticated
   using (public.is_admin());
-
--- ============================================================
--- 3. EVENTS  (one row per tap; realtime + RLS protected per the spec:
---    "users can only insert events, only admins can read events/reports")
--- ============================================================
 create table if not exists public.events (
   id          uuid primary key default gen_random_uuid(),
   tile_id     uuid not null references public.tiles (id) on delete cascade,
   user_id     uuid not null references public.profiles (id) on delete cascade,
   latency_ms  int not null,
-  source      text not null check (source in ('static', 'dynamic')),
+  source      text not null check (source in ('grid', 'dynamic_column', 'quick_phrase')),
   created_at  timestamptz not null default now()
 );
 
@@ -103,31 +98,15 @@ create index if not exists events_user_id_created_at_idx
 
 create index if not exists events_tile_id_idx
   on public.events (tile_id);
-
--- Users may insert events, but only their own (user_id must match the JWT).
 create policy "events_insert_own_only"
   on public.events for insert
   to authenticated
   with check (user_id = auth.uid());
-
--- Only admins can read events (dashboard telemetry + heatmap aggregation).
--- Note: capture-studio's Heatmap.tsx reads via heatmapQuery.ts, which must
--- run as an admin/caregiver session or through the service-role client.
 create policy "events_select_admin_only"
   on public.events for select
   to authenticated
   using (public.is_admin());
-
--- Events are an append-only telemetry log — no update/delete policies are
--- defined, so both operations are denied by default under RLS.
-
--- Enable Supabase Realtime (Postgres Changes) on `events` so
--- NotificationListener.tsx can subscribe to INSERTs live.
 alter publication supabase_realtime add table public.events;
-
--- ============================================================
--- 4. REPORTS  (Gemini-generated IEP summaries, admin-only)
--- ============================================================
 create table if not exists public.reports (
   id            uuid primary key default gen_random_uuid(),
   user_id       uuid not null references public.profiles (id) on delete cascade,
@@ -137,30 +116,21 @@ create table if not exists public.reports (
   period_end    date not null,
   created_at    timestamptz not null default now()
 );
-
 alter table public.reports enable row level security;
-
 create policy "reports_select_admin_only"
   on public.reports for select
   to authenticated
   using (public.is_admin());
-
 create policy "reports_insert_admin_only"
   on public.reports for insert
   to authenticated
   with check (public.is_admin());
-
--- ============================================================
--- 5. STORAGE (media captured in Capture Studio: images + voice anchors)
--- ============================================================
 insert into storage.buckets (id, name, public)
 values ('tile-media', 'tile-media', true)
 on conflict (id) do nothing;
-
 create policy "tile_media_read_public"
   on storage.objects for select
   using (bucket_id = 'tile-media');
-
 create policy "tile_media_write_admin_only"
   on storage.objects for insert
   to authenticated
