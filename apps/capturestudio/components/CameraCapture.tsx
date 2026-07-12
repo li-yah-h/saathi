@@ -23,7 +23,6 @@ export default function CameraCapture({ onCapture, onRetake }: CameraCaptureProp
     setPreview(shot);
     onCapture(shot);
   }, [onCapture]);
-
   const handleRetake = useCallback(() => {
     setPreview(null);
     setCameraError(null);
