@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
     }
     let embedding: number[];
     try {
-      embedding = await embedText(label.trim());
+      embedding = (await embedText(label.trim())).embedding;
     } catch (err) {
       return NextResponse.json(
         {
