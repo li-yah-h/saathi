@@ -17,7 +17,7 @@
     "recharts":"2.12.7",
     "react-hot-toast":"2.4.1",
     "@react-pdf/renderer":"3.4.4",
-    "@google/generative-ai":"0.17.1"
+    "@google/generative-ai": "^0.21.0"
   },
   "devDependencies":
   {
