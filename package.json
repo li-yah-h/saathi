@@ -1,0 +1,5 @@
+{
+  "name": "saathi-monorepo",
+  "private": true,
+  "workspaces": ["apps/*", "packages/*"]
+}
