@@ -1,5 +1,5 @@
 import {GoogleGenerativeAI as AI} from '@google/generative-ai'
-import type{EmbedTextResult,GenerateReportSummaryInput,GenerateReportSummaryResult} from '@echovoice/shared-types'\
+import type{EmbedTextResult,GenerateReportSummaryInput,GenerateReportSummaryResult} from '@saathi/stypes'\
 function getClient()
 {
   if(!process.env.GEMINI_API_KEY)
