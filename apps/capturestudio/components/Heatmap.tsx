@@ -1,7 +1,5 @@
 'use client';
-
 import type { HeatLevel, HeatmapTile } from '@/lib/types';
-
 const HEAT_CLASS: Record<HeatLevel, string> = {
   0: 'bg-heat-0 text-slate-500',
   1: 'bg-heat-1 text-slate-800',
@@ -10,20 +8,11 @@ const HEAT_CLASS: Record<HeatLevel, string> = {
   4: 'bg-heat-4 text-white',
   5: 'bg-heat-5 text-white',
 };
-
 interface HeatmapProps {
   tiles: HeatmapTile[];
   onToggleLock: (tileId: string, nextLocked: boolean) => void;
   pendingTileId?: string | null;
 }
-
-/**
- * Visual overlay for Edit Mode. Hot tiles (high click_count, or manually
- * locked) render with a lock badge to signal "protect this position."
- * Cold tiles render with a swap badge to signal "safe to replace."
- * Color alone never carries the meaning — badges + labels do too, so this
- * remains legible for colorblind users.
- */
 export default function Heatmap({ tiles, onToggleLock, pendingTileId }: HeatmapProps) {
   if (tiles.length === 0) {
     return (
@@ -32,7 +21,6 @@ export default function Heatmap({ tiles, onToggleLock, pendingTileId }: HeatmapP
       </p>
     );
   }
-
   return (
     <div className="grid grid-cols-3 gap-3 sm:grid-cols-4">
       {tiles.map((tile) => {
@@ -62,10 +50,8 @@ export default function Heatmap({ tiles, onToggleLock, pendingTileId }: HeatmapP
                 cold
               </span>
             )}
-
             <span className="line-clamp-2 px-1">{tile.label}</span>
             <span className="mt-1 text-[10px] opacity-80">{tile.click_count} taps</span>
-
             <button
               type="button"
               disabled={pendingTileId === tile.tile_id}

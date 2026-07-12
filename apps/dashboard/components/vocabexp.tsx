@@ -1,7 +1,7 @@
 'use client'
 import {LineChart,Line,XAxis,YAxis,CartesianGrid,Tooltip,ResponsiveContainer} from 'recharts'
 import {vocab} from '../lib/types'
-export default function vocabexp({data}:{data:vocab[]}) 
+export default function VocabularyExpansion({data}:{data:vocab[]}) 
 {
   return(
     <ResponsiveContainer width="100%" height={300}>

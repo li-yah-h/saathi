@@ -1,29 +1,19 @@
 'use client';
-
 import { useCallback, useRef, useState } from 'react';
 import Webcam from 'react-webcam';
-
 interface CameraCaptureProps {
   onCapture: (imageDataUrl: string) => void;
   onRetake?: () => void;
 }
-
 const videoConstraints: MediaTrackConstraints = {
   width: 720,
   height: 720,
   facingMode: 'environment',
 };
-
-/**
- * Captures a 1:1 still image for a tile. Kept deliberately simple —
- * one shutter action, one retake action — since this UI is used
- * quickly and repeatedly during onboarding sessions.
- */
 export default function CameraCapture({ onCapture, onRetake }: CameraCaptureProps) {
   const webcamRef = useRef<Webcam>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [cameraError, setCameraError] = useState<string | null>(null);
-
   const handleShutter = useCallback(() => {
     const shot = webcamRef.current?.getScreenshot();
     if (!shot) {
@@ -33,18 +23,15 @@ export default function CameraCapture({ onCapture, onRetake }: CameraCaptureProp
     setPreview(shot);
     onCapture(shot);
   }, [onCapture]);
-
   const handleRetake = useCallback(() => {
     setPreview(null);
     setCameraError(null);
     onRetake?.();
   }, [onRetake]);
-
   return (
     <div className="w-full">
       <div className="relative mx-auto aspect-square w-full max-w-sm overflow-hidden rounded-2xl border border-slate-200 bg-slate-900">
         {preview ? (
-          // eslint-disable-next-line @next/next/no-img-element
           <img src={preview} alt="Captured tile preview" className="h-full w-full object-cover" />
         ) : (
           <Webcam

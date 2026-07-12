@@ -1,6 +1,6 @@
 'use client'
 import {stat} from '../lib/types'
-export default function preview({summary,stats}:{summary:string;stats:stat})
+export default function Preview({summary,stats}:{summary:string;stats:stat})
 {
   return(
     <div className="border rounded-lg p-6 bg-white shadow-sm">
