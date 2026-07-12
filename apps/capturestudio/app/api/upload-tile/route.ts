@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createServerSupabaseClient } from '@echovoice/supabase-client/server';
-import { embedText } from '@echovoice/ai-client';
+import { createServerSupabaseClient } from '@saathi/supabase-client/server';
+import { embedText } from '@saathi/ai-client';
 export const runtime = 'nodejs';
 export async function POST(req: NextRequest) {
   try {

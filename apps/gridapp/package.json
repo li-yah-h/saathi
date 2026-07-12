@@ -1,22 +1,18 @@
 {
-  "name": "capture-studio",
+  "name": "gridapp",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3002",
+    "dev": "next dev -p 3001",
     "build": "next build",
-    "start": "next start -p 3002",
+    "start": "next start -p 3001",
     "lint": "next lint"
   },
   "dependencies": {
     "next": "^14.2.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-webcam": "^7.2.0",
-    "@supabase/supabase-js": "^2.45.4",
-    "@saathi/shared-types": "*",
-    "@saathi/supabase-client": "*",
-    "@saathi/ai-client": "*"
+    "@supabase/supabase-js": "^2.45.4"
   },
   "devDependencies": {
     "typescript": "^5.5.4",
