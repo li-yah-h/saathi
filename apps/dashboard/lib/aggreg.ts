@@ -30,8 +30,7 @@ export async function getstat(userId:string):Promise<stat>
   }
   const latencyTrend:latency[]=Object.entries(dailyData).map(([date,value])=>({date,avg_latency_ms:Math.round(value.latencySum/value.count)}))
   const vocabTrend:vocab[]=Object.entries(dailyData).map(([date,value])=>({date,unique_tiles:value.tiles.size}))
-  return 
-  {
+  return {
     totalEvents,
     avgLatencyMs:averageLatency,
     uniqueTilesUsed,
