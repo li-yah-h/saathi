@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createServerSupabaseClient } from '@saathi/supabase-client/server';
-import { embedText } from '@saathi/ai-client';
+import { createServerComponentClient } from '@saathi/client/server' (and it's async, so await createServerComponentClient())
+import { embedText } from '@saathi/ai'
 export const runtime = 'nodejs';
 export async function POST(req: NextRequest) {
   try {

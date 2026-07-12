@@ -1,7 +1,7 @@
 'use client';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { createBrowserSupabaseClient } from '@echovoice/supabase-client/client';
+import { createClient } from '@saathi/client/client'
 import { getHeatmap, setTileLock } from '@/lib/heatmapQuery';
 import type { HeatmapTile } from '@/lib/types';
 import Heatmap from '@/components/Heatmap';

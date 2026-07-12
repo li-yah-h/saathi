@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createServerSupabaseClient } from '@echovoice/supabase-client/server';
+import { createServerComponentClient } from '@saathi/client/server';
 export const runtime = 'nodejs';
 interface UploadContextBody {
   tile_id: string;
@@ -7,7 +7,7 @@ interface UploadContextBody {
 }
 export async function POST(req: NextRequest) {
   try {
-    const supabase = createServerSupabaseClient();
+    const supabase = await createServerComponentClient();
     const {
       data: { user },
     } = await supabase.auth.getUser();
