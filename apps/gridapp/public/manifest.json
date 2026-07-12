@@ -1,0 +1,24 @@
+{
+  "name": "EchoVoice — My Voice",
+  "short_name": "EchoVoice",
+  "description": "A corner-anchor AAC communication board that keeps every tile in the same place, every time.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#f8fafc",
+  "theme_color": "#5b4fe8",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
