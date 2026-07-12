@@ -1,14 +1,14 @@
 import {NextRequest,NextResponse} from 'next/server'
-import {getstat as gs} from '../../../lib/aggreg'
+import {getstat} from '../../../lib/aggreg'
 export async function GET(r:NextRequest)
 {
   try
   {
-    const u=r.nextUrl.searchParams.get('userId')
-    if(!u)
+    const userId=r.nextUrl.searchParams.get('userId')
+    if(!userId)
       return NextResponse.json({error:'userId is required.'},{status:400})
-    const s=await gs(u)
-    return NextResponse.json({stats:s})
+    const stats=await getstat(userId)
+    return NextResponse.json({stats})
   }
   catch(e)
   {

@@ -1,7 +1,7 @@
 'use client'
 import {LineChart,Line,XAxis,YAxis,CartesianGrid,Tooltip,ResponsiveContainer} from 'recharts'
 import {latency} from '../lib/types'
-export default function latency({ data }:{data:latency[]}) 
+export default function Latency({ data }:{data:latency[]}) 
 {
   return(
     <ResponsiveContainer width="100%" height={300}>

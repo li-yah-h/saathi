@@ -1,41 +1,41 @@
-import {supaserver as ss} from './supaserver'
+import {supaserver} from './supaserver'
 import {stat,latency,vocab} from './types'
-export async function getstat(u:string):Promise<stat>
+export async function getstat(userId:string):Promise<stat>
 {
-  const db=ss()
-  const {data:d,error:e}=await db
+  const database=supaserver()
+  const {data,error}=await database
     .from('events')
     .select('tile_id, latency_ms, created_at')
-    .eq('user_id',u)
+    .eq('user_id',userId)
     .order('created_at',{ascending:true})
-  if(e)
-    throw e
-  const r=d||[]
-  const t=r.length
-  const a=t===0?0:Math.round(r.reduce((s,x)=>s+(x.latency_ms||0),0)/t)
-  const ut=new Set(r.map(x=>x.tile_id)).size
-  const bd:Record<string,{
+  if(error)
+    throw error
+  const records=data||[]
+  const totalEvents=records.length
+  const averageLatency=totalEvents===0?0:Math.round(records.reduce((sum,record)=>sum+(record.latency_ms||0),0)/totalEvents)
+  const uniqueTilesUsed=new Set(records.map(record=>record.tile_id)).size
+  const dailyData:Record<string,{
     latencySum:number
     count:number
     tiles:Set<string>
   }>={}
-  for(const x of r)
+  for(const record of records)
   {
-    const d=x.created_at.slice(0,10)
-    if(!bd[d])
-      bd[d]={latencySum:0,count:0,tiles:new Set()}
-    bd[d].latencySum+=x.latency_ms||0
-    bd[d].count++
-    bd[d].tiles.add(x.tile_id)
+    const date=record.created_at.slice(0,10)
+    if(!dailyData[date])
+      dailyData[date]={latencySum:0,count:0,tiles:new Set()}
+    dailyData[date].latencySum+=record.latency_ms||0
+    dailyData[date].count++
+    dailyData[date].tiles.add(record.tile_id)
   }
-  const lt:latency[]=Object.entries(bd).map(([d,v])=>({date:d,avg_latency_ms:Math.round(v.latencySum/v.count)}))
-  const vt:vocab[]=Object.entries(bd).map(([d,v])=>({date:d,unique_tiles:v.tiles.size}))
-  return
+  const latencyTrend:latency[]=Object.entries(dailyData).map(([date,value])=>({date,avg_latency_ms:Math.round(value.latencySum/value.count)}))
+  const vocabTrend:vocab[]=Object.entries(dailyData).map(([date,value])=>({date,unique_tiles:value.tiles.size}))
+  return 
   {
-    totalEvents:t,
-    avgLatencyMs:a,
-    uniqueTilesUsed:ut,
-    latencyTrend:lt,
-    vocabTrend:vt
+    totalEvents,
+    avgLatencyMs:averageLatency,
+    uniqueTilesUsed,
+    latencyTrend,
+    vocabTrend
   }
 }

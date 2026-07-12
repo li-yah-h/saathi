@@ -1,20 +1,20 @@
 'use client'
 import {useEffect} from 'react'
 import toast from 'react-hot-toast'
-import {supabaseBrowser as sb} from '../lib/supaclient'
-export default function notify()
+import {supabaseBrowser} from '../lib/supaclient'
+export default function Notify()
 {
   useEffect(()=>
   {
-    const ch=sb
+    const channel=supabaseBrowser
       .channel('events-realtime')
       .on(
         'postgres_changes',
         {event:'INSERT',schema:'public',table:'events'},
-        (p)=>{toast(`Tile tapped: ${p.new.tile_id}`)}
+        (payload)=>{toast(`Tile tapped: ${payload.new.tile_id}`)}
       )
       .subscribe()
-    return()=>{sb.removeChannel(ch)}
+    return()=>{supabaseBrowser.removeChannel(channel)}
   },[])
   return null
 }
